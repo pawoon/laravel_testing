@@ -40,6 +40,13 @@ class UserController extends Controller
         $form = $request->all();
         $form['password'] = bcrypt($form['password']);
 
+        if (explode('@', $form['email'])[0] == 'mailinator.com') {
+            // report disposable email
+
+            return redirect()->route('users.index')
+                ->withMessageWarning('Your email is fake!');
+        }
+
         $user = User::create($form);
 
         return redirect()->route('users.index')

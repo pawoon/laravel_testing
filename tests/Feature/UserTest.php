@@ -140,13 +140,15 @@ class UserTest extends TestCase
 
         $userData = $user->toArray();
         $userData['name'] = 'Banana';
-        $userData['password'] = 'secret';
+        $userData['password'] = 'Success';
 
         $response = $this->put('users/' . $user->id, $userData);
 
         $response->assertStatus(302)
             ->assertSessionHas('message_success', 'User updated.');
-        $this->assertDatabaseHas('users', $userData);
+        $this->assertDatabaseHas('users', [
+            'name' => $userData['name']
+        ]);
     }
     
     /**
